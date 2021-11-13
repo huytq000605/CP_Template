@@ -1,24 +1,28 @@
-import math
+import sys
+def get_int(): return int(input())
+def get_ints(): return map(int, sys.stdin.readline().strip().split())
+def get_list(): return list(map(int, sys.stdin.readline().strip().split()))
+def get_string(): return sys.stdin.readline().strip()
+
 def main():
-	testcases = int(input())
+	testcases = get_int()
 	for i in range(testcases):
-		num = input()
-		print(solve(num))
+		n, k = get_ints()
+		positions = get_list()
+		print(solve(n, k, positions))
 		
-END_WITH = ["00", "25", "50", "75"]
-def solve(num: str):
-	result = math.inf
-	for end in END_WITH:
-		pos = 1
-		res = 0
-		for i in range(len(num) - 1, -1, -1):
-			if num[i] == end[pos]:
-				pos -= 1
-				if pos == -1:
-					result = min(result, res)
-					break
-			else:
-				res += 1
+def solve(n, k , positions):
+	result = 0
+	goal = n
+	cat = 1
+	positions.sort(reverse = True)
+	for i in range(len(positions)):
+		if (goal - positions[i]) > n or cat > positions[i]:
+			return result
+		else:
+			result += 1
+			cat += (goal - positions[i])
+			n -= (goal - positions[i])
 	return result
 
 
